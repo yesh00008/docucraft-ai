@@ -1,0 +1,88 @@
+.trae/documents/prd.md: Added new file.
+README.md: Modified file.
+eslint.config.js: Modified file.
+index.html: Modified file.
+package-lock.json: Modified file.
+package.json: Modified file.
+postcss.config.js: Modified file.
+public/favicon.svg: Added new file.
+src/App.tsx: Modified file.
+src/assets/react.svg: Added new file.
+src/components/ChatPanel.tsx: Added new file.
+src/components/DocumentEditor.tsx: Added new file.
+src/components/ExportButton.tsx: Added new file.
+src/components/NavLink.tsx: Deleted file.
+src/components/ThemeSwitcher.tsx: Added new file.
+src/components/Workspace.tsx: Deleted file.
+src/components/ui/accordion.tsx: Deleted file.
+src/components/ui/alert-dialog.tsx: Deleted file.
+src/components/ui/alert.tsx: Deleted file.
+src/components/ui/aspect-ratio.tsx: Deleted file.
+src/components/ui/avatar.tsx: Deleted file.
+src/components/ui/badge.tsx: Deleted file.
+src/components/ui/breadcrumb.tsx: Deleted file.
+src/components/ui/button.tsx: Deleted file.
+src/components/ui/calendar.tsx: Deleted file.
+src/components/ui/card.tsx: Deleted file.
+src/components/ui/carousel.tsx: Deleted file.
+src/components/ui/chart.tsx: Deleted file.
+src/components/ui/checkbox.tsx: Deleted file.
+src/components/ui/collapsible.tsx: Deleted file.
+src/components/ui/command.tsx: Deleted file.
+src/components/ui/context-menu.tsx: Deleted file.
+src/components/ui/dialog.tsx: Deleted file.
+src/components/ui/drawer.tsx: Deleted file.
+src/components/ui/dropdown-menu.tsx: Deleted file.
+src/components/ui/form.tsx: Deleted file.
+src/components/ui/hover-card.tsx: Deleted file.
+src/components/ui/input-otp.tsx: Deleted file.
+src/components/ui/input.tsx: Deleted file.
+src/components/ui/label.tsx: Deleted file.
+src/components/ui/menubar.tsx: Deleted file.
+src/components/ui/navigation-menu.tsx: Deleted file.
+src/components/ui/pagination.tsx: Deleted file.
+src/components/ui/popover.tsx: Deleted file.
+src/components/ui/progress.tsx: Deleted file.
+src/components/ui/radio-group.tsx: Deleted file.
+src/components/ui/resizable.tsx: Deleted file.
+src/components/ui/scroll-area.tsx: Deleted file.
+src/components/ui/select.tsx: Deleted file.
+src/components/ui/separator.tsx: Deleted file.
+src/components/ui/sheet.tsx: Deleted file.
+src/components/ui/sidebar.tsx: Deleted file.
+src/components/ui/skeleton.tsx: Deleted file.
+src/components/ui/slider.tsx: Deleted file.
+src/components/ui/sonner.tsx: Deleted file.
+src/components/ui/switch.tsx: Deleted file.
+src/components/ui/table.tsx: Deleted file.
+src/components/ui/tabs.tsx: Deleted file.
+src/components/ui/textarea.tsx: Deleted file.
+src/components/ui/toast.tsx: Deleted file.
+src/components/ui/toaster.tsx: Deleted file.
+src/components/ui/toggle-group.tsx: Deleted file.
+src/components/ui/toggle.tsx: Deleted file.
+src/components/ui/tooltip.tsx: Deleted file.
+src/components/ui/use-toast.ts: Deleted file.
+src/hooks/use-mobile.tsx: Deleted file.
+src/hooks/use-toast.ts: Deleted file.
+src/index.css: Modified file.
+src/integrations/supabase/client.ts: Deleted file.
+src/integrations/supabase/types.ts: Deleted file.
+src/lib/documentExport.ts: Deleted file.
+src/lib/documentThemes.ts: Deleted file.
+src/lib/longform.ts: Deleted file.
+src/lib/parseDocument.ts: Deleted file.
+src/lib/slidesExport.ts: Deleted file.
+src/lib/streamChat.ts: Deleted file.
+src/lib/utils.ts: Deleted file.
+src/main.tsx: Modified file.
+src/pages/Index.tsx: Deleted file.
+src/pages/NotFound.tsx: Deleted file.
+src/store/useAppStore.ts: Added new file.
+src/test/example.test.ts: Deleted file.
+src/test/setup.ts: Deleted file.
+src/utils/generationEngine.ts: Added new file.
+src/utils/pptxExport.ts: Added new file.
+tailwind.config.js: Added new file.
+tsconfig.json: Modified file.
+vite.config.ts: Modified file.

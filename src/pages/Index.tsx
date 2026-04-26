@@ -1,4 +1,4 @@
-import DocumentGenerator from "@/components/DocumentGenerator";
+import Workspace from "@/components/Workspace";
 
-const Index = () => <DocumentGenerator />;
+const Index = () => <Workspace />;
 export default Index;

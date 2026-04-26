@@ -76,8 +76,8 @@ Deno.serve(async (req) => {
     }
     const data = await resp.json();
     const args = data?.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments;
-    let parsed: any = { title: topic, subtitle: "", slides: [] };
-    try { parsed = JSON.parse(args || "{}"); } catch (_) {}
+    let parsed: Record<string, unknown> = { title: topic, subtitle: "", slides: [] };
+    try { parsed = JSON.parse(args || "{}"); } catch { /* ignore error */ }
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

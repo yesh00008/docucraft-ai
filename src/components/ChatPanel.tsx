@@ -53,11 +53,12 @@ export const ChatPanel = () => {
         role: 'assistant',
         content: `Generation complete! Generated ${pageCount} pages successfully. You can now use the theme switcher or export to PPTX.`
       });
-    } catch (err: any) {
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
       addMessage({
         id: Date.now().toString(),
         role: 'assistant',
-        content: `Generation stopped: ${err.message}`
+        content: `Generation stopped: ${errorMessage}`
       });
     } finally {
       setGenerating(false);

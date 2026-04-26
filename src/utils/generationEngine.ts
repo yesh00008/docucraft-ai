@@ -27,7 +27,6 @@ const generateRandomMarkdown = (paragraphs: number) => {
 
 // Generator function that yields chunks
 export async function* simulateDocumentGeneration(pageCount: number): AsyncGenerator<DocumentChunk, void, unknown> {
-  const chunksPerSection = 1; // Simplify to 1 chunk = 1 section
   let order = 0;
 
   for (let i = 1; i <= pageCount; i++) {

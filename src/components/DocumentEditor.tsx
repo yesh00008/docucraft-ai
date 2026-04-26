@@ -84,13 +84,13 @@ export const DocumentEditor = () => {
                   <ReactMarkdown 
                     remarkPlugins={[remarkGfm]}
                     components={{
-                      h1: ({node, ...props}) => <h1 style={{ fontFamily: activeTheme.fontFamilyHeading, color: activeTheme.textColor }} {...props} />,
-                      h2: ({node, ...props}) => <h2 style={{ fontFamily: activeTheme.fontFamilyHeading, color: activeTheme.textColor }} {...props} />,
-                      h3: ({node, ...props}) => <h3 style={{ fontFamily: activeTheme.fontFamilyHeading, color: activeTheme.textColor }} {...props} />,
-                      p: ({node, ...props}) => <p style={{ color: activeTheme.textColor, opacity: 0.9 }} {...props} />,
-                      li: ({node, ...props}) => <li style={{ color: activeTheme.textColor, opacity: 0.9 }} {...props} />,
-                      strong: ({node, ...props}) => <strong style={{ color: activeTheme.textColor }} {...props} />,
-                      blockquote: ({node, ...props}) => (
+                      h1: ({node: _node, ...props}) => <h1 style={{ fontFamily: activeTheme.fontFamilyHeading, color: activeTheme.textColor }} {...props} />,
+                      h2: ({node: _node, ...props}) => <h2 style={{ fontFamily: activeTheme.fontFamilyHeading, color: activeTheme.textColor }} {...props} />,
+                      h3: ({node: _node, ...props}) => <h3 style={{ fontFamily: activeTheme.fontFamilyHeading, color: activeTheme.textColor }} {...props} />,
+                      p: ({node: _node, ...props}) => <p style={{ color: activeTheme.textColor, opacity: 0.9 }} {...props} />,
+                      li: ({node: _node, ...props}) => <li style={{ color: activeTheme.textColor, opacity: 0.9 }} {...props} />,
+                      strong: ({node: _node, ...props}) => <strong style={{ color: activeTheme.textColor }} {...props} />,
+                      blockquote: ({node: _node, ...props}) => (
                         <blockquote 
                           style={{ 
                             borderLeftColor: activeTheme.textColor, 

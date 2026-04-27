@@ -25,10 +25,10 @@ export const ExportButton = () => {
     <button
       onClick={handleExport}
       disabled={chunks.length === 0 || isExporting}
-      className={`flex items-center gap-2 px-4 py-1.5 rounded font-bold text-sm tracking-wide transition-all shadow-[0_0_10px_rgba(212,255,0,0)]
+      className={`flex items-center gap-2 px-4 py-1.5 rounded-lg font-bold text-sm tracking-wide transition-all shadow-sm
         ${chunks.length === 0 
-          ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed' 
-          : 'bg-[#D4FF00] text-black hover:bg-[#bce600] hover:shadow-[0_0_15px_rgba(212,255,0,0.5)]'
+          ? 'bg-zinc-100 text-zinc-400 border border-zinc-200 cursor-not-allowed' 
+          : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-md'
         }`}
     >
       {isExporting ? <Loader2 size={16} className="animate-spin" /> : <FileOutput size={16} />}

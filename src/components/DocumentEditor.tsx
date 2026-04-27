@@ -22,14 +22,14 @@ export const DocumentEditor = () => {
 
   if (chunks.length === 0) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center text-zinc-600 h-full p-8 text-center bg-[#0F0F0F]">
-        <div className="w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center mb-6">
-          <svg className="w-8 h-8 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="flex-1 flex flex-col items-center justify-center text-zinc-500 h-full p-8 text-center bg-transparent">
+        <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mb-6 shadow-sm border border-indigo-100">
+          <svg className="w-8 h-8 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
         </div>
-        <h3 className="text-xl font-medium text-zinc-400 mb-2">No Document Generated Yet</h3>
-        <p className="text-sm max-w-md">
+        <h3 className="text-xl font-semibold text-zinc-800 mb-2">No Document Generated Yet</h3>
+        <p className="text-sm max-w-md text-zinc-500">
           Use the instruction panel on the left to start generating a document. The content will stream in real-time.
         </p>
       </div>
@@ -39,7 +39,7 @@ export const DocumentEditor = () => {
   return (
     <div 
       ref={containerRef}
-      className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12 scroll-smooth bg-[#0A0A0A]"
+      className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12 scroll-smooth bg-transparent"
     >
       <div className="max-w-4xl mx-auto">
         <AnimatePresence>
@@ -54,7 +54,7 @@ export const DocumentEditor = () => {
                 damping: 20, 
                 delay: 0.1 
               }}
-              className="mb-8 md:mb-12 shadow-[0_10px_40px_rgba(0,0,0,0.5)] rounded-sm overflow-hidden"
+              className="mb-8 md:mb-12 shadow-lg rounded-2xl overflow-hidden border border-zinc-100"
             >
               {/* "Page" Container */}
               <div 

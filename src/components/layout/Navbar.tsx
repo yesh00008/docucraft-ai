@@ -27,9 +27,14 @@ const Navbar = () => {
           <span className="font-bold text-lg tracking-tight text-zinc-900">DocuGen AI</span>
         </Link>
 
-        {user && (
+        {user ? (
           <div className="hidden md:flex items-center gap-1 bg-zinc-100/50 rounded-lg p-1 border border-zinc-200/50">
             <Link to="/" className="px-3 py-1.5 text-sm font-medium text-zinc-700 bg-white shadow-sm rounded-md hover:text-zinc-900 transition-colors">Workspace</Link>
+            <Link to="/about" className="px-3 py-1.5 text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">About Us</Link>
+          </div>
+        ) : (
+          <div className="hidden md:flex items-center gap-1 bg-zinc-100/50 rounded-lg p-1 border border-zinc-200/50">
+            <Link to="/" className="px-3 py-1.5 text-sm font-medium text-zinc-700 bg-white shadow-sm rounded-md hover:text-zinc-900 transition-colors">Test Chat Workspace</Link>
             <Link to="/about" className="px-3 py-1.5 text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">About Us</Link>
           </div>
         )}

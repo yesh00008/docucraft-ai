@@ -1,115 +1,131 @@
-import React, { useEffect, useRef } from 'react';
-import { useAppStore, THEMES } from '../store/useAppStore';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAppStore } from '../store/useAppStore';
+import { themeById } from '../lib/themes';
+import { formatReference } from '../lib/citations';
 
 export const DocumentEditor = () => {
-  const { chunks, activeThemeId } = useAppStore();
-  const activeTheme = THEMES.find((t) => t.id === activeThemeId) || THEMES[0];
+  const { doc, themeId, citationStyle, sources, isGenerating, setTitle } = useAppStore();
+  const theme = themeById(themeId);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom when new chunks arrive
+  // Auto-scroll while streaming
   useEffect(() => {
-    if (containerRef.current) {
-      const { scrollHeight, clientHeight } = containerRef.current;
-      containerRef.current.scrollTo({
-        top: scrollHeight - clientHeight,
-        behavior: 'smooth'
-      });
-    }
-  }, [chunks]);
+    if (!isGenerating || !containerRef.current) return;
+    const el = containerRef.current;
+    el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+  }, [doc.chapters.length, isGenerating]);
 
-  if (chunks.length === 0) {
+  const totalWords = useMemo(
+    () => doc.chapters.reduce((n, c) => n + (c.content || c.synopsis || '').split(/\s+/).filter(Boolean).length, 0),
+    [doc.chapters],
+  );
+  const estPages = Math.max(1, Math.round(totalWords / 350));
+
+  if (doc.chapters.length === 0 && !doc.title) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center text-zinc-600 h-full p-8 text-center bg-[#0F0F0F]">
-        <div className="w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center mb-6">
-          <svg className="w-8 h-8 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        </div>
-        <h3 className="text-xl font-medium text-zinc-400 mb-2">No Document Generated Yet</h3>
-        <p className="text-sm max-w-md">
-          Use the instruction panel on the left to start generating a document. The content will stream in real-time.
-        </p>
+      <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+          className="glass rounded-3xl p-10 max-w-md anim-float">
+          <div className="w-14 h-14 rounded-2xl bg-primary/15 mx-auto mb-5 flex items-center justify-center text-2xl glow-primary">
+            ✦
+          </div>
+          <h3 className="text-xl font-bold mb-2 gradient-text">Your document will appear here</h3>
+          <p className="text-sm text-muted-foreground">
+            Describe what you need in the chat — a 5-page brief or a 200-page handbook. Pick a theme, a citation style, and let the AI write it.
+          </p>
+        </motion.div>
       </div>
     );
   }
 
-  return (
-    <div 
-      ref={containerRef}
-      className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12 scroll-smooth bg-[#0A0A0A]"
-    >
-      <div className="max-w-4xl mx-auto">
-        <AnimatePresence>
-          {chunks.map((chunk, index) => (
-            <motion.div
-              key={chunk.id}
-              initial={{ opacity: 0, y: 50, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ 
-                type: "spring", 
-                stiffness: 100, 
-                damping: 20, 
-                delay: 0.1 
-              }}
-              className="mb-8 md:mb-12 shadow-[0_10px_40px_rgba(0,0,0,0.5)] rounded-sm overflow-hidden"
-            >
-              {/* "Page" Container */}
-              <div 
-                className="w-full transition-colors duration-500 ease-in-out p-8 md:p-12 min-h-[500px]"
-                style={{ 
-                  backgroundColor: activeTheme.bgColor,
-                  color: activeTheme.textColor,
-                }}
-              >
-                <header className="mb-8 pb-4 border-b border-black/10 flex justify-between items-end">
-                  <h2 
-                    className="text-3xl md:text-4xl font-bold leading-tight"
-                    style={{ fontFamily: activeTheme.fontFamilyHeading }}
-                  >
-                    {chunk.sectionTitle}
-                  </h2>
-                  <span className="text-sm font-mono opacity-40">Page {index + 1}</span>
-                </header>
+  const pageStyle: React.CSSProperties = {
+    backgroundColor: theme.bg,
+    color: theme.text,
+    fontFamily: theme.fontBody,
+    border: theme.showBorderFrame ? theme.border : undefined,
+    padding: theme.pagePadding ?? '3rem 2.5rem',
+  };
 
-                <div 
-                  className="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-blue-600 prose-img:rounded-xl"
-                  style={{ 
-                    fontFamily: activeTheme.fontFamilyBody,
-                    color: activeTheme.textColor,
-                  }}
-                >
-                  <ReactMarkdown 
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                      h1: ({node: _node, ...props}) => <h1 style={{ fontFamily: activeTheme.fontFamilyHeading, color: activeTheme.textColor }} {...props} />,
-                      h2: ({node: _node, ...props}) => <h2 style={{ fontFamily: activeTheme.fontFamilyHeading, color: activeTheme.textColor }} {...props} />,
-                      h3: ({node: _node, ...props}) => <h3 style={{ fontFamily: activeTheme.fontFamilyHeading, color: activeTheme.textColor }} {...props} />,
-                      p: ({node: _node, ...props}) => <p style={{ color: activeTheme.textColor, opacity: 0.9 }} {...props} />,
-                      li: ({node: _node, ...props}) => <li style={{ color: activeTheme.textColor, opacity: 0.9 }} {...props} />,
-                      strong: ({node: _node, ...props}) => <strong style={{ color: activeTheme.textColor }} {...props} />,
-                      blockquote: ({node: _node, ...props}) => (
-                        <blockquote 
-                          style={{ 
-                            borderLeftColor: activeTheme.textColor, 
-                            opacity: 0.8,
-                            backgroundColor: 'rgba(0,0,0,0.03)',
-                            padding: '1rem'
-                          }} 
-                          {...props} 
-                        />
-                      ),
-                    }}
-                  >
-                    {chunk.content}
-                  </ReactMarkdown>
-                </div>
+  return (
+    <div ref={containerRef} className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12">
+      {/* Stats bar */}
+      <div className="max-w-4xl mx-auto mb-4 flex items-center justify-between text-xs font-mono text-muted-foreground">
+        <span>{doc.chapters.length} chapters · {totalWords.toLocaleString()} words · ~{estPages} pages</span>
+        <span className="text-primary">{theme.name}</span>
+      </div>
+
+      {/* Title */}
+      <div className="max-w-4xl mx-auto mb-6">
+        <input
+          value={doc.title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Untitled document"
+          className="w-full bg-transparent text-3xl md:text-4xl font-bold gradient-text border-b border-border/40 focus:outline-none focus:border-primary py-2 transition"
+        />
+      </div>
+
+      {/* Chapters */}
+      <div className="max-w-4xl mx-auto space-y-6">
+        <AnimatePresence initial={false}>
+          {doc.chapters.map((c, i) => (
+            <motion.article
+              key={c.id}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: 'spring', stiffness: 120, damping: 22, delay: 0.04 }}
+              className="rounded-xl shadow-elevated overflow-hidden"
+              style={{ boxShadow: '0 20px 60px -20px rgba(0,0,0,0.7)' }}
+            >
+              <div style={pageStyle}>
+                <header className="mb-6 flex items-baseline justify-between gap-4 border-b" style={{ borderColor: 'currentColor', opacity: 1, borderBottomWidth: 1, borderBottomColor: theme.muted, paddingBottom: 12 }}>
+                  <h2 style={{ fontFamily: theme.fontHeading, color: theme.text }} className="text-2xl md:text-3xl font-bold leading-tight">
+                    {i + 1}. {c.heading}
+                  </h2>
+                  <span style={{ color: theme.muted }} className="text-xs font-mono shrink-0">
+                    {c.status === 'streaming' && <span className="ai-typing-cursor">writing</span>}
+                    {c.status === 'pending' && 'queued'}
+                    {c.status === 'done' && `Page ${i + 1}`}
+                  </span>
+                </header>
+                {c.status === 'pending' && (
+                  <div className="space-y-2">
+                    <div className="h-3 shimmer rounded w-3/4" />
+                    <div className="h-3 shimmer rounded w-5/6" />
+                    <div className="h-3 shimmer rounded w-2/3" />
+                  </div>
+                )}
+                {c.status !== 'pending' && (
+                  <div style={{ fontFamily: theme.fontBody, color: theme.text }} className="text-base md:text-[1.05rem] leading-[1.75] whitespace-pre-wrap">
+                    {c.content || c.synopsis}
+                    {c.status === 'streaming' && <span className="ai-typing-cursor" />}
+                  </div>
+                )}
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </AnimatePresence>
+
+        {/* References block when applicable */}
+        {citationStyle !== 'none' && sources.length > 0 && (
+          <motion.article
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+            className="rounded-xl shadow-elevated overflow-hidden"
+          >
+            <div style={pageStyle}>
+              <h2 style={{ fontFamily: theme.fontHeading, color: theme.text }} className="text-2xl font-bold mb-4">References</h2>
+              <ol className="space-y-2 text-sm" style={{ color: theme.text }}>
+                {sources.map((s, i) => (
+                  <li key={s.id} className="flex gap-2">
+                    <span style={{ color: theme.muted }} className="font-mono">{i + 1}.</span>
+                    <span>{formatReference(s, citationStyle)}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </motion.article>
+        )}
       </div>
     </div>
   );

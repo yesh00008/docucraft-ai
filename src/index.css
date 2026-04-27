@@ -2,13 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  line-height: 1.5;
-  font-weight: 400;
+@layer base {
+  :root {
+    --background: 240 14% 4%;
+    --foreground: 220 15% 92%;
+    --card: 240 12% 7%;
+    --card-foreground: 220 15% 92%;
+    --popover: 240 12% 8%;
+    --popover-foreground: 220 15% 92%;
+    --primary: 75 100% 50%;
+    --primary-foreground: 240 14% 4%;
+    --secondary: 240 6% 14%;
+    --secondary-foreground: 220 15% 92%;
+    --muted: 240 6% 12%;
+    --muted-foreground: 220 8% 60%;
+    --accent: 280 90% 65%;
+    --accent-foreground: 240 14% 4%;
+    --destructive: 0 80% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 6% 16%;
+    --input: 240 6% 14%;
+    --ring: 75 100% 50%;
+    --radius: 0.75rem;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    --gradient-aurora: radial-gradient(at 20% 10%, hsl(280 90% 30% / 0.35) 0px, transparent 50%),
+                       radial-gradient(at 80% 0%, hsl(190 90% 35% / 0.30) 0px, transparent 50%),
+                       radial-gradient(at 50% 100%, hsl(75 100% 40% / 0.18) 0px, transparent 50%);
+    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.35);
+    --shadow-elevated: 0 20px 60px -20px hsl(0 0% 0% / 0.7);
+    --glass-bg: hsl(240 12% 8% / 0.65);
+    --glass-border: hsl(220 20% 90% / 0.08);
+  }
 }
+
+@layer base {
+  * { @apply border-border; }
+  html, body, #root { height: 100%; }
+  body {
+    @apply bg-background text-foreground antialiased;
+    background-image: var(--gradient-aurora);
+    background-attachment: fixed;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  ::selection { background: hsl(var(--primary) / 0.85); color: hsl(var(--primary-foreground)); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.4); }
+}
+
+@layer components {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid var(--glass-border);
+  }
+  .glow-primary { box-shadow: var(--shadow-glow); }
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .shimmer {
+    background: linear-gradient(90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.15) 50%,
+      hsl(var(--muted)) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+  .ai-typing-cursor::after {
+    content: '▍';
+    color: hsl(var(--primary));
+    animation: blink 0.9s steps(2) infinite;
+    margin-left: 2px;
+  }
+}
+
+@layer utilities {
+  .anim-fade-up { animation: fade-up 0.5s cubic-bezier(0.21, 1.02, 0.73, 1) both; }
+  .anim-glow-pulse { animation: glow-pulse 2.4s ease-in-out infinite; }
+  .anim-float { animation: float 6s ease-in-out infinite; }
+}
+
+@keyframes fade-up { from { opacity: 0; transform: translateY(16px);} to { opacity: 1; transform: none;} }
+@keyframes glow-pulse {
+  0%,100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.25); }
+  50% { box-shadow: 0 0 50px hsl(var(--primary) / 0.55); }
+}
+@keyframes shimmer { 0% { background-position: 200% 0;} 100% { background-position: -200% 0;} }
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes float { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-6px);} }

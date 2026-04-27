@@ -31,8 +31,6 @@ export type ChatMessage = {
 };
 
 // Theme alias for legacy components
-export const THEMES_LEGACY = THEMES;
-export { THEMES } from '../lib/themes';
 
 const STORAGE_KEY = 'docugen.v3';
 
